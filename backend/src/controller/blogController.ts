@@ -36,7 +36,8 @@ export const createPost = async (c: Context) => {
             select: {
                 author: {
                     select: {
-                        email: true
+                        email: true,
+                        name: true
                     }
                 },
                 title: true,
@@ -107,6 +108,19 @@ export const getPostById = async (c: Context) => {
             where: {
                 id: postId
             },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                createdAt: true,
+                published: true,
+                author: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
+            }
         })
         return c.json({
             res
@@ -121,7 +135,21 @@ export const getPostById = async (c: Context) => {
 export const getAllPost = async (c: Context) => {
     const prisma: PrismaClient = c.get("prisma");
     try {
-        const res = await prisma.post.findMany({})
+        const res = await prisma.post.findMany({
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                createdAt: true,
+                published: true,
+                author: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
+            }
+        })
         return c.json({
             res
         }, StatusCode.SUCCESS);

@@ -75,7 +75,7 @@ export const signIn = async (c: Context) => {
             }, StatusCode.BADREQ);
         }
 
-        const currUser = await prisma.user.findFirst({
+        const res = await prisma.user.findFirst({
             where: {
                 email: body.email,
                 password: body.password
@@ -87,16 +87,17 @@ export const signIn = async (c: Context) => {
             }
         })
 
-        if(currUser == null) {
+        if(res == null) {
             return c.json({
                 message: "User does not exists !"
             }, StatusCode.NOTFOUND);
         }
 
-        const token = await Jwt.sign({id: currUser.id}, c.env.JWT_SECRET);
+        const token = await Jwt.sign({id: res.id}, c.env.JWT_SECRET);
 
         return c.json({
             message: "Successfuly signed in !",
+            res,
             jwt: token
         }, StatusCode.SUCCESS)
 
