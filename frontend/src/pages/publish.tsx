@@ -1,7 +1,7 @@
 import { Appbar } from "../components/AppBarCompo"
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Editor } from 'primereact/editor';
 
@@ -25,7 +25,7 @@ export const Publish = () => {
                     setDescription(e.target.value)
                 }} /> */}
 
-                <Editor onTextChange={(event: EditorTextChangeEvent) => {
+                <Editor onTextChange={(event: any) => {
                     setDescription(event.textValue)
                 }} style={{ height: '320px' }} />
 
